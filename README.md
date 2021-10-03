@@ -1,4 +1,4 @@
-# @prototypes/array
+# prototypes-array
 
 - a way to implement some extensions to help with array manipulation
 
@@ -11,7 +11,7 @@
 
 
 ``` bash
-npm install @prototypes/array
+npm install prototypes-array
 ```
 
 ## usage
@@ -23,22 +23,22 @@ npm install @prototypes/array
 - for a full implementation
 
 ``` js
-    require('@prototypes/array')
+    require('prototypes-array')
 ```
 
 - I just want to implement some array function:
 
 ``` js
-    require('@prototypes/array/count')
-    require('@prototypes/array/distinct')
-    require('@prototypes/array/first')
-    require('@prototypes/array/last')
-    require('@prototypes/array/max')
-    require('@prototypes/array/min')
-    require('@prototypes/array/pull')
-    require('@prototypes/array/search')
-    require('@prototypes/array/shape')
-    require('@prototypes/array/sum')
+    require('prototypes-array/count')
+    require('prototypes-array/distinct')
+    require('prototypes-array/first')
+    require('prototypes-array/last')
+    require('prototypes-array/max')
+    require('prototypes-array/min')
+    require('prototypes-array/pull')
+    require('prototypes-array/search')
+    require('prototypes-array/shape')
+    require('prototypes-array/sum')
 ``` 
 
 # examples
