@@ -11,6 +11,15 @@
     "type": "git",
     "url": "git+https://github.com/mathec-x/-prototypes-array.git"
   },
+  "keywords": [
+    "helpers",
+    "prototypes",
+    "array",
+    "count",
+    "distinct",
+    "search",
+    "pull"
+  ],
   "scripts": {
     "build": "npm run build:esm && npm run build:cjs",
     "build:esm": "tsc",
