@@ -1,7 +1,5 @@
 import { MakeDeepSearch, Normalized } from './../utils';
 
-export { }
-
 declare global {
     interface Array<T> {
         /**
@@ -10,7 +8,6 @@ declare global {
         Search(query?: String): T[]
     }
 }
-
 
 if (!Array.prototype.Search) {
     Object.defineProperty(Array.prototype, 'Search', {

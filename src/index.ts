@@ -1,6 +1,7 @@
 export * from './count'
 export * from './distinct'
 export * from './first'
+export * from './has'
 export * from './last'
 export * from './max'
 export * from './min'

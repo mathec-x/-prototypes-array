@@ -88,6 +88,14 @@ teste1.First() // { id: 1, name: 'Matheus', code: '013' }
 {}.First() // { }
 ```
 
+## Array.Has
+
+``` js
+array.Has({id: 1}); // true
+array.Has({name: 'teste 000'}); // false
+[0,1,2,3].Has(2); // true
+```
+
 ## Array.Last
 
 - Return Last Element from array
