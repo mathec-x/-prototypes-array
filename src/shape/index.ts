@@ -112,25 +112,3 @@ if (!Object.prototype.Shape) {
         }
     })
 }
-
-// const obj = { email: "active@email.com", date: '2020-02-10T00:00:00.000Z' }
-// const array = [
-//     [50, "Maculinho", ["jack@email.com", "2020-02-10T00:00:00.000Z"], [[1, "2021-01-25T00:00:00.000Z"], [2, "2021-02-25T00:00:00.000Z"]]],
-//     [55, "Jão silva", obj, [{ id: 1, querydate: "2021-01-25T00:00:00.000Z" }, { id: 2, querydate: "2021-02-25T00:00:00.000Z" }]],
-// ];
-
-// const type = {
-//     id: Number,
-//     name: String,
-//     info: {
-//         email: String,
-//         date: String
-//     },
-//     query: [{
-//         id: Number,
-//         querydate: (x) => new Date(x)
-//     }]
-// }
-
-// const teste = array.Shape(type);
-// teste[0].query[0] // (property) query: { id: NumberConstructor; querydate: (x: any) => Date; }[]
