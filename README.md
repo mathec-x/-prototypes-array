@@ -120,6 +120,20 @@ teste1.Max('code') // 645
 teste1.Min('code') // 13
 ```
 
+## Array.PercentBy
+
+``` js
+const array = [
+    { id: 1, peso: 4, done: false, task: 'task 001'},
+    { id: 2, peso: 5, done: true, task: 'task 002'},
+    { id: 3, peso: 10, done: true, task: 'task 002'},
+    { id: 4, peso: 1, done: true, task: 'task 002'}
+];
+
+array.PercentBy('peso', { done: true }, 2) // '80.00'
+array.PercentBy('peso', { done: false }, 0) // '20')
+```
+
 ## Array.Pull
 
 - Removes all elements from an array by property and returns Number pulled items.
