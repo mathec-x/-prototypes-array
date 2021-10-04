@@ -1,19 +1,19 @@
 import { FilterByProp } from './../utils';
-type Callback<T, Fn> =  Fn extends string ? Fn | keyof T : { [P in keyof T]?: T[P] } | ((call: T) => Boolean) 
-type Result<T> = Array<{ [P in keyof T]?: T[P] } & { _count: number }>
 
+type Func<T> = { [P in keyof T]?: T[P] } | ((call: { [P in keyof T]?: T[P] }) => Boolean)
+type PickResult<T, Fn extends keyof T> = { _count: number } & Pick<T, Fn>
 declare global {
     interface Array<T> {
         /**
         * Count by element equality from an array by property returns total found by aggregation or number
         */
-        Count<Fn>(KeyCall?: Callback<T, Fn>): Fn extends String ? Result<T> : number
+        Count<Fn extends keyof T | Func<T>>(KeyCall?: Fn ): Fn extends keyof T ? PickResult<T,Fn>[] : number 
     }
 }
 
 if (!Array.prototype.Count) {
     Object.defineProperty(Array.prototype, 'Count', {
-        value: function Count<T, Fn>(this: T[], KeyCall: Callback<T, Fn>) {
+        value: function Count<T>(this: T[], KeyCall: keyof T | Func<T> ) {
             if(typeof KeyCall === 'undefined') return this.length;
 
             const byObject = typeof KeyCall === 'object';
