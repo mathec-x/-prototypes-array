@@ -16,18 +16,18 @@ npm install prototypes-array
 
 ## index 
 
-### [Count](#array-count)
-### [Distinct](#array-distinct)
-### [First](#array-first)
-### [Has](#array-has)
-### [Last](#array-last)
-### [Max](#array-max)
-### [Min](#array-min)
-### [PercentBy](#array-percentby)
-### [Pull](#array-pull)
-### [Search](#array-search)
-### [Sum](#array-sum)
-### [Shape](#array-shape)
+[Count](#array-count)
+[Distinct](#array-distinct)
+[First](#array-first)
+[Has](#array-has)
+[Last](#array-last)
+[Max](#array-max)
+[Min](#array-min)
+[PercentBy](#array-percentby)
+[Pull](#array-pull)
+[Search](#array-search)
+[Sum](#array-sum)
+[Shape](#array-shape)
 
 ### [Prototypes for Strings](https://github.com/mathec-x/-prototypes-string)
 
