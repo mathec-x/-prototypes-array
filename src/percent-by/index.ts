@@ -21,7 +21,7 @@ const PercentBy = function<T>(this: T[], PesoKeyContainsValue: keyof T[], condic
 declare global {
     interface Array<T> {
         /**
-        * Return Boolean if key PercentBy value
+        * returns the percentage value assigned by the sum of all values ​​in a property
         */
         PercentBy(PesoKeyContainsValue: keyof T, condiction?: Partial<T>, rounds?: Number): String
     }

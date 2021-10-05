@@ -3,7 +3,7 @@ import { FilterByProp } from "../utils";
 declare global {
     interface Array<T> {
         /**
-        * Return Boolean if key has value
+        * checks whether objects and values ​​contain within the array
         */
         Has<P>(key: P extends Partial<T> ? Partial<T> :any): Boolean
     }
