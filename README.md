@@ -16,29 +16,29 @@ npm install prototypes-array
 
 ## index 
 
-[Count](#array-count)
+[Array Count](#array-count)
 
-[Distinct](#array-distinct)
+[Array Distinct](#array-distinct)
 
-[First](#array-first)
+[Array First](#array-first)
 
-[Has](#array-has)
+[Array Has](#array-has)
 
-[Last](#array-last)
+[Array Last](#array-last)
 
-[Max](#array-max)
+[Array Max](#array-max)
 
-[Min](#array-min)
+[Array Min](#array-min)
 
-[PercentBy](#array-percentby)
+[Array PercentBy](#array-percentby)
 
-[Pull](#array-pull)
+[Array Pull](#array-pull)
 
-[Search](#array-search)
+[Array Search](#array-search)
 
-[Sum](#array-sum)
+[Array Sum](#array-sum)
 
-[Shape](#array-shape)
+[Array Shape](#array-shape)
 
 ### [Prototypes for Strings](https://github.com/mathec-x/-prototypes-string)
 
@@ -195,38 +195,46 @@ teste1.Sum(e => e.id) // 28
 
 - Enforces the types and keys of an array or object
 
-``` js 
+``` ts
+'Array only'
+    const input = [['1', ['2021-10-01 00:00:000', '00']]];
+    const result = input.Shape({ id: Number, query: [{ created: (x) => new Date(x) }] });
+    expect(result).toEqual([
+        { id: 1, query: [
+            { created: new Date("2021-10-01T03:00:00.000Z")}, { created: new Date("2000-01-01T02:00:00.000Z") }
+        ] 
+    }])
 
-1) Array
-[['1', ['2021-10-01 00:00:000','00']] ].Shape({id: Number, query: [{ created: (x) => new Date(x) }]}) 
+    const result: {
+        id: NumberConstructor;
+        query: {
+            created: (x: any) => Date;
+        }[];
+    }[]
 
-const result: {
-    id: NumberConstructor;
-    query: {
-        created: (x: any) => Date;
-    }[];
-}[] = [{ id:1, query :[{created:"2021-10-01T03:00:00.000Z"},{created:"2000-01-01T02:00:00.000Z"}]}]
+'Object with Array'
+    const input = { id: '1', query: [{ created: '2021-10-01 00:00:000' }] };
+    const result = input.Shape({ id: Number, query: [{ created: (x) => new Date(x) }] });
+    expect(result).toEqual({ id: 1, query: [{ created: new Date("2021-10-01T03:00:00.000Z") }] })
 
-2) Object with Array
+    const result: {
+        id: NumberConstructor;
+        query: {
+            created: (x: any) => Date;
+        }[];
+    }
+})
 
-{id: '1', query: [{ created: '2021-10-01 00:00:000' }]}.Shape({id: Number, query: [{ created: (x) => new Date(x) }]}) 
+'Object with Object'
+    const input = { id: '1', query: { created: '2021-10-01 00:00:000' } }
+    const result = input.Shape({ id: Number, query: { created: (x) => new Date(x) } });
+    expect(result).toEqual({ id: 1, query: { created: new Date("2021-10-01T03:00:00.000Z") } })
 
-const result: {
-    id: NumberConstructor;
-    query: {
-        created: (x: any) => Date;
-    }[];
-} = { id: 1, query: [ { created: 2021-10-01T03:00:00.000Z }]}
-
-3) Object with Object
-
-{id: '1', query: { created: '2021-10-01 00:00:000' }}.Shape({id: Number, query: { created: (x) => new Date(x) }}) 
-
-const result: const m: {
-    id: NumberConstructor;
-    query: {
-        created: (x: any) => Date;
-    };
-} = { id: 1, query: { created: 2021-10-01T03:00:00.000Z}}
+    const result: {
+        id: NumberConstructor;
+        query: {
+            created: (x: any) => Date;
+        };
+    }
 
 ```
