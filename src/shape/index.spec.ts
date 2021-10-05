@@ -2,7 +2,7 @@ import './index'
 
 describe('Shape', () => {
 
-    it('Test Array only', () => {
+    test('Array only', () => {
         const input = [['1', ['2021-10-01 00:00:000', '00']]];
         const result = input.Shape({ id: Number, query: [{ created: (x) => new Date(x) }] });
         expect(result).toEqual([
@@ -19,7 +19,7 @@ describe('Shape', () => {
         // }[]
     })
 
-    it('Test Object with Array', () => {
+    test('Object with Array', () => {
         const input = { id: '1', query: [{ created: '2021-10-01 00:00:000' }] };
         const result = input.Shape({ id: Number, query: [{ created: (x) => new Date(x) }] });
         expect(result).toEqual({ id: 1, query: [{ created: new Date("2021-10-01T03:00:00.000Z") }] })
@@ -32,7 +32,7 @@ describe('Shape', () => {
         // }
     })
 
-    it('Test Object with Object', () => {
+    test('Object with Object', () => {
         const input = { id: '1', query: { created: '2021-10-01 00:00:000' } }
         const result = input.Shape({ id: Number, query: { created: (x) => new Date(x) } });
         expect(result).toEqual({ id: 1, query: { created: new Date("2021-10-01T03:00:00.000Z") } })
