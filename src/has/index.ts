@@ -5,16 +5,18 @@ declare global {
         /**
         * checks whether objects and values ​​contain within the array
         */
-        Has<P>(key: P extends Partial<T> ? Partial<T> :any): Boolean
+         Has<P extends any>(key: Partial<T> | ((item: T) => Boolean) | P ): Boolean
     }
 }
 
 if (!Array.prototype.Has) {
     Object.defineProperty(Array.prototype, 'Has', {
-        value: function<T>(key?: Partial<T>|any) {
-            return key 
-                ? this.some((e) => FilterByProp(key, e) ) 
-                : this.indexOf(key) !== -1
+        value: function<T>(key?: Partial<T>|((f:T) => Boolean)|any) {
+            return typeof key === 'function' 
+                    ? this.some(key)
+                    : typeof key === 'object' 
+                    ? this.some((e) => FilterByProp(key, e) ) 
+                    : this.indexOf(key) !== -1
         },
     });
 }

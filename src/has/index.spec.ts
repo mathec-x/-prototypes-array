@@ -8,16 +8,24 @@ const array = [
 ];
 
 describe('Array.Has', () => {
+    it('Should return true containing with function', () => {
+        const test = array.Has(e => e.name === 'teste 001');
+        expect(test).toBe(true);
+    })
     it('Should return true containing object', () => {
         const test = array.Has({id: 1});
-        expect(test).toBe(true)
+        expect(test).toBe(true);
     })
     it('Should return false containing object', () => {
         const test = array.Has({name: 'teste 000'});
-        expect(test).toBe(false)
+        expect(test).toBe(false);
     })
     it('Should return true containing in array', () => {
         const test = [0,1,2,3].Has(2);
-        expect(test).toBe(true)
+        expect(test).toBe(true);
+    })
+    it('Should return false not containing in array', () => {
+        const test = [0,1,2,3].Has(4);
+        expect(test).toBe(false);
     })
 })

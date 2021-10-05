@@ -100,16 +100,31 @@ teste1.First() // { id: 1, name: 'Matheus', code: '013' }
 {}.First() // { }
 ```
 
-## Array Has
+## Array Has (iterator)
 
 - checks whether objects and values ​​contain within the array
+- iterator: number|string|function|object
 
 ``` js
-array.Has({id: 1}); // true
-array.Has({name: 'teste 000'}); // false
+ 'Should return true containing with function'
+    const test = array.Has(e => e.name === 'teste 001');
+    expect(test).toBe(true);
 
-const nmbrs = [0,1,2,3];
-nmbrs.Has(2); // true
+ 'Should return true containing object'
+    const test = array.Has({id: 1});
+    expect(test).toBe(true);
+
+ 'Should return false containing object'
+    const test = array.Has({name: 'teste 000'});
+    expect(test).toBe(false);
+
+ 'Should return true containing in array'
+    const test = [0,1,2,3].Has(2);
+    expect(test).toBe(true);
+
+ 'Should return false not containing in array'
+    const test = [0,1,2,3].Has(4);
+    expect(test).toBe(false);
 ```
 
 ## Array Last
