@@ -80,11 +80,11 @@ teste1.Count({ name: 'Thiffani' }); // 2
 teste1.Count('name'); // [{ name: 'Thiffani', _count: 2 }, {...}]
 ```
 
-## Array Distinct(pk, props, includes)
+## Array Distinct(pk, props?, includes?)
 
 - pk: the key does the group => string|string[]
-- props: the output properties
-- includes: add objects to output
+- props: select as array the output properties => string[]
+- includes: object, add objects to output => Object
 
 ``` js
 teste1.Distinct('name', ['name']); // [{ name: 'Thiffani' }, {...}]

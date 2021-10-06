@@ -10,4 +10,20 @@ export const MakeDeepSearch = (part : string, keys: string[], obj: any) => keys.
             : false
 )
 
+// DestrureByDots({query: {created: '123'}}, 'query.created'));
+export const DestrureByDots = (element: any, property: string) : string => {
+    // 'a.0.b.c'
+    const p = property.split('.');
+    for (let index = 0; index < p.length; ++index) {
+        if(element[p[index]])
+        element = element[p[index]];
+        else {
+            element = undefined
+            break;
+        }
+    }
+    return element;
+}
+
+
 export const FilterByProp = (propsToFilter: Object, objectMatch: Object) => Object.keys(propsToFilter).every((key) => objectMatch[key] === propsToFilter[key]);
