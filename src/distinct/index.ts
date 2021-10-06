@@ -1,4 +1,4 @@
-import { DestrureByDots } from './../utils';
+export {}
 declare global {
     interface Array<T> {
         /**
@@ -29,17 +29,17 @@ if (!Array.prototype.Distinct) {
             for (let i = thisLen; i >= 0; --i) {
                 const elmnt = this[i];
                 const count = select.length - 1;
-                const this_unique_fk = props instanceof Array ? props.map(x => DestrureByDots(elmnt, x)).join('') : DestrureByDots(elmnt, props);
+                const this_unique_fk = props instanceof Array ? props.map(x => elmnt[x]).join('') : elmnt[props];
 
                 if (!unique_sets[this_unique_fk]) {
                     const pushData = { ...include };
-                    pushData['__id'] = this_unique_fk;
+                    // pushData['__id'] = this_unique_fk;
 
                     for (let index = count; index >= 0; --index) {
                         const indexOfDot = select[index].indexOf('.');
 
                         if (indexOfDot > -1) {
-                            pushData[select[index].substring(0, indexOfDot) ] = DestrureByDots(elmnt, select[index]);
+                            pushData[select[index].substring(0, indexOfDot) ] = elmnt[select[index]];
                         } else {
                             pushData[select[index]] = elmnt[select[index]] || ''
                         }
