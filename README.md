@@ -100,6 +100,24 @@ teste1.First() // { id: 1, name: 'Matheus', code: '013' }
 {}.First() // { }
 ```
 
+## Array GroupBy
+
+- Group array objects by key string or callback
+
+```js
+const result = array.GroupBy(    
+// ['id'], by string or
+(x) => x.data.substring(0, 7) + x.id,
+(current, next) => ({
+        id: current.id,
+        qtde_inf: next ? current.qtde_inf + next.qtde_inf : current.qtde_inf,
+        qtde_pass: next ? current.qtde_pass + next.qtde_pass : current.qtde_pass
+    })
+)
+
+```
+
+
 ## Array Has (iterator)
 
 - checks whether objects and values ​​contain within the array
