@@ -14,14 +14,23 @@ const array = [
 
 describe('Array.GroupBy', () => {
     it('Should Gourp by date and id', () => {
-        const result = array.GroupBy(    
+        const result = array.GroupBy(
         // ['id'],
         (x) => x.data.substring(0, 7) + x.id,
-        (current, next) => ({
+        (current, next ) => {
+            if(next){
+                return {
+                    id: current.id,
+                    violation: current.qtde_inf + Number(next.violation),
+                    passages: current.qtde_pass + Number(next.passages)
+                }
+            }
+
+            return {
                 id: current.id,
-                qtde_inf: next ? current.qtde_inf + next.qtde_inf : current.qtde_inf,
-                qtde_pass: next ? current.qtde_pass + next.qtde_pass : current.qtde_pass
-            })
+                violation: current.qtde_inf,
+                passages: current.qtde_pass
+            }}
         )
         expect(result).toBeInstanceOf(Array);
     })

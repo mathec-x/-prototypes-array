@@ -2,12 +2,12 @@ export { }
 type FuncOrArgs<T> = Partial<keyof T>[] | ((current: T, next: T) => any)
 
 declare global {
-    interface Array<T> {
-        GroupBy<Args extends Object>(
-            getkey: FuncOrArgs<T>,
-            callback?: (current: T, next?: T) => Args
-        ): Args[]
-    }
+  interface Array<T> {
+      GroupBy<Result>(
+          getkey: FuncOrArgs<T>,
+          callback: <Next = Result>(current: T, next: Next) => Result
+      ): Result[]
+  }
 }
 
 const mountKey = (key: any, object: any) => {
@@ -24,7 +24,10 @@ const mountKey = (key: any, object: any) => {
 
 if (!Array.prototype.GroupBy) {
     Object.defineProperty(Array.prototype, 'GroupBy', {
-        value: function GroupBy<T>(this: Array<T>, getkey: FuncOrArgs<T>, callback: (current: T, next: T) => any) {
+        value: function GroupBy<T>(
+            this: Array<T>, 
+            getkey: FuncOrArgs<T>, 
+            callback: <Next = T>(current: T, next: Next) => T) {
             const result = this.reduce((res: any, currentValue: T) => {
                 const index = mountKey(getkey, currentValue);
                 if(!res[index]){
