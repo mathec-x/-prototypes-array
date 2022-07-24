@@ -1,27 +1,32 @@
 export { }
+type FuncOrArgs<T> = ((data: T) => number) | Partial<keyof T>
+
 declare global {
     interface Array<T> {
         /**
         * Return Max
         */
-        Max(KeyCall: keyof T): number
+        Max(callback: FuncOrArgs<T>): number
     }
 }
 
 if (!Array.prototype.Max) {
     Object.defineProperty(Array.prototype, 'Max', {
-        value: function Max<T>(this: T[], KeyCall: keyof T) {
-            let t : number;
+        value: function Max<T>(this: T[], callback: FuncOrArgs<T>) {
+            let t: number, num: number;
             for (let i = this.length - 1; i >= 0; --i) {
-                const num: number = Number(this[i][KeyCall]) || 0;
-                if(num > t){
+                num = typeof callback === 'function'
+                    ? callback(this[i])
+                    : Number(this[i][callback]) || 0;
+
+                if (num > t) {
                     t = num;
                     continue;
                 };
-                if(!t) {
+                if (!t) {
                     t = num;
                     continue;
-                };            
+                };
             }
             return t;
         }
