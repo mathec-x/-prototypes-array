@@ -5,7 +5,7 @@ declare global {
   interface Array<T> {
       GroupBy<Result>(
           getkey: FuncOrArgs<T>,
-          callback: <Next = Result>(current: T, next: Next) => Result
+          callback: <Next = { [P in keyof Result]: Result[P] } >(previous: T, next?: Next) => Result
       ): Result[]
   }
 }
@@ -27,7 +27,7 @@ if (!Array.prototype.GroupBy) {
         value: function GroupBy<T>(
             this: Array<T>, 
             getkey: FuncOrArgs<T>, 
-            callback: <Next = T>(current: T, next: Next) => T) {
+            callback: <Next = Partial<T>>(current: T, next?: Next) => T) {
             const result = this.reduce((res: any, currentValue: T) => {
                 const index = mountKey(getkey, currentValue);
                 if(!res[index]){
