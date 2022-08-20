@@ -1,4 +1,10 @@
-export {}
+import { Replace } from "../utils"
+
+export { }
+type PluralizedKeys<T> = `${string & keyof T}[s]`
+type ResultPicker<T, K> = K extends keyof T ? Pick<T, K> : never
+type PluralPicker<T, K> = K extends PluralizedKeys<T> ? { [key in Replace<K, '[s]', 's'>]: any[] } : never
+
 declare global {
     interface Array<T> {
         /**
@@ -6,14 +12,22 @@ declare global {
          * 
          * @example
          * object.Distinct(['uuid'],['name', 'query'], {'observations': ''}) 
-         * -- uuid ´s the key, rest is silence
-         * -- query will bring as object
-         * -- name will be included
-         * -- observations will be included with default value
+         * - "uuid ´s the key, rest is silence"
+         * - "query will bring as object"
+         * - "name will be included"
+         * - "observations will be included with default value"
          */
-        Distinct<S extends Partial<keyof T>, K extends Partial<keyof T>, I extends any>(props: S | S[], select?: K[], include?: I): [Pick<T, K> & I]
+        Distinct<
+            S extends Partial<keyof T>,
+            K extends Partial<keyof T> | PluralizedKeys<T>,
+            I extends any>(
+                props: S | S[],
+                select?: K[],
+                include?: I
+            ): [PluralPicker<T, K> & ResultPicker<T, K> & I]
     }
 }
+
 
 if (!Array.prototype.Distinct) {
     Object.defineProperty(Array.prototype, 'Distinct', {
@@ -21,10 +35,14 @@ if (!Array.prototype.Distinct) {
             const distinct = [];
             const unique_sets = {};
 
+
+            let key: string, indexOfDot = -1, indexOfArray = -1, pushData = {};
+
             if (select.length === 0) {
                 select = Object.keys(this[0]);
             }
 
+            const arrayIncrementalProp = select.findIndex(e => e.indexOf('[s]') !== -1)
             const thisLen = this.length - 1;
             for (let i = thisLen; i >= 0; --i) {
                 const elmnt = this[i];
@@ -32,23 +50,38 @@ if (!Array.prototype.Distinct) {
                 const this_unique_fk = props instanceof Array ? props.map(x => elmnt[x]).join('') : elmnt[props];
 
                 if (!unique_sets[this_unique_fk]) {
-                    const pushData = { ...include };
-                    // pushData['__id'] = this_unique_fk;
+                    pushData = { ...include };
+                    pushData['constructor']['key'] = this_unique_fk;
 
                     for (let index = count; index >= 0; --index) {
-                        const indexOfDot = select[index].indexOf('.');
+                        indexOfDot = select[index].indexOf('.');
+                        indexOfArray = select[index].indexOf('[s]');
 
-                        if (indexOfDot > -1) {
-                            pushData[select[index].substring(0, indexOfDot) ] = elmnt[select[index]];
+                        if (indexOfArray > -1) {
+                            key = select[index].replace('[s]', 's')
+                            pushData[key] = [elmnt[select[index].replace('[s]', '')]];
+                        }
+                        else if (indexOfDot > -1) {
+                            key = select[index].substring(0, indexOfDot)
+                            pushData[key] = elmnt[select[index]];
                         } else {
-                            pushData[select[index]] = elmnt[select[index]] || ''
+                            key = select[index]
+                            pushData[key] = elmnt[select[index]] || ''
                         }
                     }
 
                     distinct.push(pushData);
                     unique_sets[this_unique_fk] = 1;
 
-                } else ++unique_sets[this_unique_fk];
+                } else {
+                    if (arrayIncrementalProp !== -1) {
+                        distinct
+                            .find(e => e['constructor']['key'] === this_unique_fk)
+                        [select[arrayIncrementalProp].replace('[s]', 's')]
+                            .push(elmnt[select[arrayIncrementalProp].replace('[s]', '')])
+                    }
+                    ++unique_sets[this_unique_fk]
+                };
             }
 
             return distinct;

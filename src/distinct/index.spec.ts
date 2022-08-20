@@ -8,6 +8,15 @@ const array = [
 ];
 
 describe('Array.Distinct', () => {
+    it.only('Should group ids by name', () => {
+        const test = array.Distinct("name", ['name', 'id[s]']);
+        expect(test.length).toBe(2);
+        expect(test).toContainEqual({
+            name: "teste 002",
+            ids: [4, 3, 2]
+        });
+    })
+
     it('Should return object when count by prop with additional property observations', () => {
         const test = array.Distinct("name", ['id', 'name', 'query'], { observations: 'default value' });
         expect(test.length).toBe(2);
