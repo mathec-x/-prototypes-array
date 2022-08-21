@@ -1,10 +1,12 @@
 import { JoinNestedObjects, ObjectByString, Replace } from "../utils"
 
-export { }
-type PluralizedKeys<T> = string & keyof T | JoinNestedObjects<T> | `${string & keyof T}[s]`
+type Pluralized<T> = `${string & keyof T}[s]`
+type PluralizedKeys<T> = string & keyof T | JoinNestedObjects<T> | Pluralized<T>
 
-type ResultPicker<T, K> = K extends keyof T ? Pick<T, K> : never
-type PluralPicker<T, K> = { [key in Replace<string & K, '[s]', 's'>]: any[] }
+type PluralPicker<T, K> = { 
+    [key in Replace<string & K, '[s]', 's'>]: 
+        key extends keyof T ? T[key]: key extends JoinNestedObjects<T> ? any : any[]
+}
 
 type PickResult<T, K, I> = PluralPicker<T, K> & I
 
