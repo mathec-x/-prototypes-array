@@ -10,32 +10,53 @@ const array = [
 // const test = array.Distinct('id', ['code', 'code[s]'] )
 
 describe('Array.Distinct', () => {
+    it('Should group by dot paths and pluralized group', () => {
+        const test = array.Distinct("name", ['name[s]','query.createdAt']);
+        console.log(test)
+        // expect(test).toEqual(
+        //     expect.arrayContaining([
+        //         expect.objectContaining({ b: 'not_default', as: [1, 1] }),
+        //         expect.objectContaining({ b: 'default', as: [2] })
+        //     ]))
+    })
+
+    it('Should use defaults', () => {
+        const x = [{ a: 1, b: 'not_default' }, { a: 1 }, { a: 2 }]
+        const test = x.Distinct("a", ['b', 'a[s]'], { b: 'default' });
+        // console.log(test)
+        expect(test).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ b: 'not_default', as: [1] }),
+                expect.objectContaining({ b: 'default', as: [2] })
+            ]))
+    })
+
     it('Should group ids by name', () => {
-        const test = array.Distinct("name", ['name', 'id[s]', 'query.createdAt']);
-        // console.log(test[0])
+        const test = array.Distinct("name", ['name', 'id[s]']);
         expect(test.length).toBe(2);
         expect(test).toContainEqual({
             name: "teste 002",
-            ids: [4, 3, 2],
-            "query.createdAt": "00100101010"
+            ids: expect.arrayContaining([4, 3, 2])
         });
     })
 
     it('Should return object when count by prop with additional property observations', () => {
         const test = array.Distinct("name", ['id', 'name', 'query'], { observations: 'default value' });
-        // console.log(test[0])
+        // console.log(test)
         expect(test.length).toBe(2);
         expect(test).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
                     id: 4,
                     name: 'teste 002',
-                    query: { createdAt: '00100101010', updatedAt: '00100101010' }
+                    query: { createdAt: '00100101010', updatedAt: '00100101010' },
+                    observations: 'default value'
                 }),
                 expect.objectContaining({
                     id: 1,
                     name: 'teste 001',
-                    query: { createdAt: '00100101010', updatedAt: '00100101010' }
+                    query: { createdAt: '00100101010', updatedAt: '00100101010' },
+                    observations: 'default value',
                 })
             ])
         )
