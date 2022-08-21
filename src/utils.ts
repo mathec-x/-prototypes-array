@@ -25,6 +25,20 @@ export const DestrureByDots = (element: any, property: string): string => {
     return element;
 }
 
+export const ObjectByString = function(o, s) {
+    s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
+    s = s.replace(/^\./, '');           // strip a leading dot
+    var a = s.split('.');
+    for (var i = 0, n = a.length; i < n; ++i) {
+        var k = a[i];
+        if (k in o) {
+            o = o[k];
+        } else {
+            return;
+        }
+    }
+    return o;
+}
 
 export const FilterByProp = (propsToFilter: Object, objectMatch: Object) => Object.keys(propsToFilter).every((key) => objectMatch[key] === propsToFilter[key]);
 
@@ -33,3 +47,16 @@ export type Replace<
     S extends string,
     D extends string,
     A extends string = ""> = T extends `${infer L}${S}${infer R}` ? Replace<R, S, D, `${A}${L}${D}`> : `${A}${T}`
+
+export type PathsToStringProps<T> = T extends string ? [] : {
+    [K in Extract<keyof T, string>]: [K, ...PathsToStringProps<T[K]>]
+}[Extract<keyof T, string>];
+
+export type Join<T, D extends string> =
+    T extends [] ? never :
+    T extends [infer F] ? F :
+    T extends [infer F, ...infer R] ?
+    F extends string ?
+    `${F}${D}${Join<Extract<R, string[]>, D>}` : never : string;
+
+export type JoinNestedObjects<T> = Join<PathsToStringProps<T>, ".">
